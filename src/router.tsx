@@ -4,6 +4,7 @@ import { AuthLayout } from "./pages/layouts/auth"
 
 import { SignIn } from "./pages/auth/sign-in"
 import { Unauthorized } from "./pages/auth/unauthorized"
+import { ConfirmCode } from "./pages/auth/confirm-code"
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
       {
         path: '/unauthorized',
         element: <Unauthorized />
+      },
+      {
+        path: '/confirm-code',
+        element: <ConfirmCode />
       },
     ]
   }

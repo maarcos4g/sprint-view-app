@@ -33,7 +33,6 @@ export function SignIn() {
             </div>
 
             <Button
-              variant="default"
               type="submit"
             >
               Continuar

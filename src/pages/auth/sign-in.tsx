@@ -32,7 +32,10 @@ export function SignIn() {
               />
             </div>
 
-            <Button type="submit">
+            <Button
+              variant="default"
+              type="submit"
+            >
               Continuar
             </Button>
           </div>

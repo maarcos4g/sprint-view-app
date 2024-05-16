@@ -113,14 +113,16 @@ export function Home() {
 
             const height = diff * 100
 
-            return (
-              <div className="">
-                <div className="w-14 bg-sky-400 flex items-center justify-center text-zinc-50 font-bold text-xs" style={{ height: (height / 25) }}>
-                  {isNaN(diff) ? 0 : diff}
+            if (diff > 0) {
+              return (
+                <div className="">
+                  <div className="w-14 bg-sky-400 flex items-center justify-center text-zinc-50 font-bold text-xs" style={{ height: (height / 25) }}>
+                    {isNaN(diff) ? 0 : diff}
+                  </div>
+                  <span className="text-[9px] text-zinc-600">{item.Titulo}</span>
                 </div>
-                <span className="text-[9px] text-zinc-600">Iteração {index + 1}</span>
-              </div>
-            )
+              )
+            }            
           })}
         </div>
       </div>
@@ -170,7 +172,7 @@ export function Home() {
               })}
             </div>
 
-            <span className="text-xs text-zinc-300 mt-3 absolute top-32">[clique em um dos equipe para carregar os dados]</span>
+            <span className="text-xs text-zinc-300 mt-3 flex top-32">[clique em um dos equipe para carregar os dados]</span>
 
           </div>
         </div>
@@ -180,7 +182,7 @@ export function Home() {
             Cycle time (detalhes)
             {selectedTeam && (
               <div
-                className="px-2 rounded-full text-zinc-200"
+                className="px-2 rounded-full text-black"
                 style={{ backgroundColor: teamColors[teams.indexOf(selectedTeam)] }}
               >
                 {selectedTeam.toLowerCase()}

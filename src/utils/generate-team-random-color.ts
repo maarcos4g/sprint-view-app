@@ -3,7 +3,5 @@ export function generateTeamRandomColor(): string {
   const g = Math.floor(Math.random() * 256)
   const b = Math.floor(Math.random() * 256)
 
-  console.log(`rgb(${r}, ${g}), ${b})`)
-
   return `rgb(${r}, ${g}, ${b})`
 }

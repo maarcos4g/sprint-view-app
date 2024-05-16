@@ -6,6 +6,9 @@ import logo from '/logo.svg'
 import { NavLink } from "./nav-link";
 import { AccountMenu } from "./account-menu";
 
+import * as xlsx from 'xlsx'
+import { cleanData, RawData } from "@/utils/clean-data";
+
 export function Header() {
 
   function onFileSelected(event: ChangeEvent<HTMLInputElement>) {
@@ -17,7 +20,18 @@ export function Header() {
 
     const selectedFile = files[0]
 
-    console.log(selectedFile)
+    const reader = new FileReader();
+    reader.readAsBinaryString(selectedFile);
+    reader.onload = (event) => {
+      const data = event.target?.result;
+      const excelData = xlsx.read(data, { type: 'binary' });
+      const sheetName = excelData.SheetNames[0];
+      const sheet = excelData.Sheets[sheetName];
+      const jsonData: RawData[] = xlsx.utils.sheet_to_json(sheet);
+      const cleanedData = cleanData(jsonData);
+      localStorage.setItem('@data', JSON.stringify(cleanedData))
+      window.location.reload()
+    }
   }
 
   return (
@@ -48,6 +62,7 @@ export function Header() {
             Enviar planilha
             <Upload className="size-5" />
           </label>
+
           <AccountMenu />
         </div>
       </div>

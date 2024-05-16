@@ -175,7 +175,7 @@ export function Home() {
           </div>
         </div>
 
-        <div className="w-full min-h-[307px] shadow-lg rounded-lg px-8 py-4">
+        <div className="w-full min-h-[307px] shadow-lg rounded-lg px-8 py-4 relative">
           <span className="font-bold text-base text-zinc-950 flex gap-2">
             Cycle time (detalhes)
             {selectedTeam && (
@@ -190,7 +190,6 @@ export function Home() {
 
           {selectedTeam ? (
             <div className="mt-4">
-              {/* {renderChart(getTeamData(selectedTeam))} */}
               <div className="grid grid-cols-7 gap-2">
                 {newDataList
                   .filter(item => item.team && item.team.startsWith(selectedTeam))
@@ -209,9 +208,20 @@ export function Home() {
                     </div>
                   ))}
               </div>
+
+              <div className="flex items-center gap-4 absolute bottom-3">
+                <div className="flex items-center text-xs font-bold text-zinc-800 gap-1">
+                  <div className="w-2 h-2 rounded-full bg-[#58AEEC]" />
+                  <span>Homologação</span>
+                </div>
+                <div className="flex items-center text-xs font-bold text-zinc-800 gap-1">
+                  <div className="w-2 h-2 rounded-full bg-[#ADEDAC]" />
+                  <span>Implantação</span>
+                </div>
+              </div>
             </div>
           ) : (
-            <p className="text-center text-sm text-zinc-500">[clique em uma das equipes ao lado para carregar os dados]</p>
+            <p className="text-center text-sm text-zinc-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">[clique em uma das equipes ao lado para carregar os dados]</p>
           )}
         </div>
       </div>

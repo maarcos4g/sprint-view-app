@@ -23,22 +23,14 @@ export function TeamsSprint(props: TeamSprintProps) {
           })}
         </div>
 
-        <div className="grid grid-cols-3 gap-2 mt-3 pb-8">
+        <div className="grid grid-cols-3 gap-4 mt-3 pb-8">
           {props.teams.map((team, index) => {
             const teamCount = props.teams.filter((t) => t === team).length;
-            const randomMarginTop = Math.random() * 10;
-            const randomMarginLeft = Math.random() * 10;
-            const randomRotate = Math.random() * 20 - 10;
-            const randomTranslateX = Math.random() * 5 - 5;
-            const randomTranslateY = Math.random() * 10 - 5;
             return (
               <div
                 key={index}
                 className="rounded-full cursor-pointer"
                 style={{
-                  marginTop: `${randomMarginTop}px`,
-                  marginLeft: `${randomMarginLeft}px`,
-                  transform: `rotate(${randomRotate}deg) translate(${randomTranslateX}px, ${randomTranslateY}px)`,
                   backgroundColor: props.teamColors[index],
                   width: 10 * 6 * teamCount,
                   height: 10 * 6,

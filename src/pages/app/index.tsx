@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { CleanedData } from "@/utils/clean-data";
-import { generateTeamRandomColor } from "@/utils/generate-team-random-color";
 import { ChevronDown } from "lucide-react";
 
 import { LeadTimeChart } from "@/components/charts/lead-time";
 import { TeamsSprint } from "@/components/charts/teams-sprint";
 import { CycleTimeChart } from "@/components/charts/cycle-time";
 import { EmptyData } from "../empty-state";
+
+import { CleanedData } from "@/utils/clean-data";
+import { generateTeamRandomColor } from "@/utils/generate-team-random-color";
+import { setTeamsNames } from "@/utils/set-teams-names";
+import { setDurations } from "@/utils/set-sprint-durations";
+import { setDataList } from "@/utils/set-new-work-data";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -21,11 +25,6 @@ interface NewDataItem {
   type: string;
   title: string;
   team: string;
-}
-
-interface SprintData {
-  start: Date;
-  end: Date;
 }
 
 export function Home() {
@@ -53,9 +52,7 @@ export function Home() {
       Implantacao: dayjs(item.Implantacao, 'DD/MM/YYYY').toDate(),
     }));
 
-    const teamsName = updatedData.map((item) => item.Time).filter(Boolean);
-    const unifiedTeamNames = teamsName.map((name) => name.replace(/\s+\d+$/, ''));
-    const uniqueTeams = [...new Set(unifiedTeamNames)];
+    const { uniqueTeams } = setTeamsNames(updatedData)
 
     setTeams(uniqueTeams);
     setWorkData(updatedData);
@@ -63,49 +60,15 @@ export function Home() {
     const colors = uniqueTeams.map(() => generateTeamRandomColor());
     setTeamColors(colors);
 
-    // Calcular a duração das sprints
-    const sprintMap: { [key: string]: SprintData } = {};
-
-    updatedData.forEach((item) => {
-      const iterationPath = item.IterationPath;
-      if (iterationPath) {
-        const startDate = item.IniciodeDev;
-        const endDate = item.FimDev;
-
-        if (sprintMap[iterationPath]) {
-          sprintMap[iterationPath].start = startDate < sprintMap[iterationPath].start ? startDate : sprintMap[iterationPath].start;
-          sprintMap[iterationPath].end = endDate > sprintMap[iterationPath].end ? endDate : sprintMap[iterationPath].end;
-        } else {
-          sprintMap[iterationPath] = { start: startDate, end: endDate };
-        }
-      }
-    });
-
-    const durations = Object.fromEntries(
-      Object.entries(sprintMap).map(([iterationPath, { start, end }]) => [
-        iterationPath,
-        dayjs(end).diff(start, 'days'),
-      ])
-    );
+    const { durations } = setDurations(updatedData)
 
     setSprintDurations(durations);
   }, []);
 
   useEffect(() => {
-    const newDataList = workData.flatMap((item) => {
-      if (item.Implantacao && item.Homologacao) {
-        return [
-          { date: item.Implantacao, type: "Implantacao", title: item.Titulo, team: item.Time },
-          { date: item.Homologacao, type: "Homologacao", title: item.Titulo, team: item.Time },
-        ];
-      } else {
-        return item.Implantacao
-          ? [{ date: item.Implantacao, type: "Implantacao", title: item.Titulo, team: item.Time }]
-          : [{ date: item.Homologacao, type: "Homologacao", title: item.Titulo, team: item.Time }];
-      }
-    });
+    const { newDataList: workDataList } = setDataList(workData)
 
-    setNewDataList(newDataList);
+    setNewDataList(workDataList);
   }, [workData]);
 
   return (

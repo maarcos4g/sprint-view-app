@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { LeadTimeChart } from "@/components/charts/lead-time";
 import { TeamsSprint } from "@/components/charts/teams-sprint";
 import { CycleTimeChart } from "@/components/charts/cycle-time";
+import { EmptyData } from "../empty-state";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -39,7 +40,7 @@ export function Home() {
   let jsonData: CleanedData[] = [];
 
   if (data == null) {
-    return <h1>Ocorreu um erro ao carregar os dados. Envie uma planilha e tente novamente</h1>;
+    return <EmptyData />;
   }
 
   useEffect(() => {

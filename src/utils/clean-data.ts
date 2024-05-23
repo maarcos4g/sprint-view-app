@@ -9,6 +9,7 @@ export interface RawData {
   "Homologacao": number;
   "Implantação": number;
   "Iteration Path": string;
+  "Time": string
 }
 
 export interface CleanedData {
@@ -22,6 +23,7 @@ export interface CleanedData {
   Homologacao: string | Date;
   Implantacao: string | Date;
   IterationPath: string;
+  Time: string
 }
 
 export function cleanData(data: RawData[]): CleanedData[] {
